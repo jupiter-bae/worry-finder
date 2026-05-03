@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>마음 숲 - 내 안의 길 찾기</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Gaegu:wght@400;700&family=Gowun+Dodum&family=Gowun+Batang:wght@400;700&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --forest-deep: #1f3a1f;
+  --forest-mid: #3d6b3a;
+  --forest-soft: #5a8a55;
+  --moss: #7ba474;
+  --leaf-light: #a8c89e;
+  --leaf-pale: #d4e3cc;
+  --green-mist: #e8efe1;
+  --cream: #eef2e6;
+  --paper: #f5f8ee;
+  --terracotta: #c97a5e;
+  --sunset: #e0a868;
+  --honey: #d4a544;
+  --bark: #4a5d3a;
+}
+
+body {
+  font-family: "Gowun Dodum", "Apple SD Gothic Neo", sans-serif;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(123, 164, 116, 0.28) 0%, transparent 55%),
+    radial-gradient(circle at 85% 85%, rgba(90, 138, 85, 0.25) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(168, 200, 158, 0.18) 0%, transparent 70%),
+    linear-gradient(165deg, #eef2e6 0%, #e0e9d6 45%, #d4e3cc 100%);
+  min-height: 100vh;
+  color: var(--forest-deep);
+  line-height: 1.75;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.bg-decor {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+}
+
+.leaf {
+  position: absolute;
+  font-size: 48px;
+  opacity: 0.4;
+  animation: sway 8s ease-in-out infinite;
+}
+.leaf-1 { top: 8%; left: 6%; transform: rotate(-15deg); }
+.leaf-2 { top: 15%; right: 8%; font-size: 60px; animation-delay: 2s; transform: rotate(25deg); }
+.leaf-3 { bottom: 12%; left: 10%; font-size: 52px; animation-delay: 4s; }
+.leaf-4 { bottom: 20%; right: 6%; font-size: 56px; animation-delay: 1s; transform: rotate(-30deg); }
+
+.sun {
+  position: absolute; top: 5%; right: 15%;
+  font-size: 90px; opacity: 0.25;
+  color: var(--sunset);
+  animation: glow 6s ease-in-out infinite;
+}
+
+@keyframes sway {
+  0%, 100% { transform: rotate(-10deg) translateY(0); }
+  50% { transform: rotate(8deg) translateY(-12px); }
+}
+@keyframes glow {
+  0%, 100% { opacity: 0.25; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.05); }
+}
+
+.container {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 48px 24px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+.header { text-align: center; margin-bottom: 36px; }
+
+.ornament {
+  color: var(--forest-soft);
+  font-size: 18px;
+  letter-spacing: 6px;
+  margin: 8px 0;
+  opacity: 0.8;
+}
+
+.header h1 {
+  font-family: "Nanum Pen Script", "Caveat", cursive;
+  font-size: 64px;
+  font-weight: 400;
+  color: var(--forest-deep);
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 0 rgba(123, 164, 116, 0.2);
+  line-height: 1.1;
+}
+
+.subtitle {
+  font-family: "Gaegu", "Gowun Dodum", sans-serif;
+  color: var(--forest-mid);
+  font-size: 17px;
+  margin: 8px 0;
+}
+
+.progress-bar {
+  height: 5px;
+  background: rgba(90, 138, 85, 0.2);
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 36px;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--leaf-light), var(--moss), var(--forest-soft));
+  width: 0%;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 20px;
+}
+
+.question-area {
+  flex: 1;
+  background: linear-gradient(135deg, rgba(232, 239, 225, 0.85), rgba(245, 248, 238, 0.95));
+  border: 1.5px solid rgba(123, 164, 116, 0.4);
+  border-radius: 24px;
+  padding: 36px 32px;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.6) inset,
+    0 8px 32px rgba(74, 103, 65, 0.1),
+    0 2px 8px rgba(107, 79, 58, 0.08);
+  margin-bottom: 28px;
+  animation: fadeIn 0.6s ease;
+  position: relative;
+}
+
+.question-area::before {
+  content: "🌿";
+  position: absolute;
+  top: 14px; right: 18px;
+  font-size: 20px;
+  opacity: 0.7;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.question-title {
+  font-family: "Gowun Batang", "Gowun Dodum", serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--forest-deep);
+  margin-bottom: 10px;
+  line-height: 1.55;
+}
+
+.question-hint {
+  font-family: "Gaegu", "Gowun Dodum", sans-serif;
+  font-size: 16px;
+  color: var(--forest-mid);
+  margin-bottom: 28px;
+  opacity: 0.85;
+}
+
+.options { display: flex; flex-direction: column; gap: 12px; }
+
+.option {
+  display: block;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1.5px solid rgba(123, 164, 116, 0.4);
+  border-radius: 18px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: "Gowun Dodum", "Apple SD Gothic Neo", sans-serif;
+  font-size: 16px;
+  color: var(--forest-deep);
+  text-align: left;
+  width: 100%;
+  position: relative;
+}
+
+.option:hover {
+  background: rgba(232, 239, 225, 0.95);
+  border-color: var(--forest-soft);
+  transform: translateX(6px);
+  box-shadow: 0 3px 10px rgba(61, 107, 58, 0.15);
+}
+
+.option.selected {
+  background: linear-gradient(135deg, rgba(123, 164, 116, 0.35), rgba(168, 200, 158, 0.4));
+  border-color: var(--forest-mid);
+  color: var(--forest-deep);
+  font-weight: 700;
+  box-shadow: 0 2px 10px rgba(61, 107, 58, 0.2) inset;
+}
+
+.option.selected::after {
+  content: "🌸";
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 14px;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+}
+
+.btn {
+  flex: 1;
+  padding: 16px 28px;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: "Gowun Dodum", "Apple SD Gothic Neo", sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--forest-mid), var(--forest-soft), var(--moss));
+  color: var(--cream);
+  box-shadow: 0 4px 14px rgba(74, 103, 65, 0.4);
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(74, 103, 65, 0.5);
+}
+
+.btn-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background: linear-gradient(135deg, #999, #aaa);
+  box-shadow: none;
+}
+
+.btn-secondary {
+  background: rgba(232, 239, 225, 0.85);
+  color: var(--forest-mid);
+  border: 1.5px solid rgba(90, 138, 85, 0.4);
+}
+
+.btn-secondary:hover {
+  background: rgba(212, 227, 204, 0.95);
+  border-color: var(--forest-mid);
+  color: var(--forest-deep);
+}
+
+.result-card {
+  background: linear-gradient(135deg, rgba(168, 200, 158, 0.25), rgba(232, 239, 225, 0.7));
+  border: 1.5px dashed rgba(90, 138, 85, 0.5);
+  border-radius: 18px;
+  padding: 22px 24px 22px 44px;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.result-card::before {
+  content: "🌱";
+  position: absolute;
+  top: 18px; left: 14px;
+  font-size: 18px;
+  opacity: 0.85;
+}
+
+.result-label {
+  font-family: "Nanum Pen Script", "Caveat", cursive;
+  font-size: 22px;
+  color: var(--forest-mid);
+  letter-spacing: 1.5px;
+  margin-bottom: 4px;
+  font-weight: 400;
+}
+
+.result-text {
+  font-size: 17px;
+  color: var(--forest-deep);
+  line-height: 1.65;
+  font-family: "Gowun Dodum", sans-serif;
+}
+
+.result-summary {
+  background: linear-gradient(135deg, rgba(90, 138, 85, 0.18), rgba(212, 227, 204, 0.75));
+  border-left: 5px solid var(--forest-mid);
+  border-radius: 14px;
+  padding: 26px 28px;
+  margin-top: 24px;
+  font-family: "Gowun Batang", "Gowun Dodum", serif;
+  font-size: 16px;
+  line-height: 1.95;
+  color: var(--forest-deep);
+  position: relative;
+}
+
+.result-summary b {
+  color: var(--forest-mid);
+  font-weight: 700;
+}
+
+.action-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.btn-ai {
+  background: linear-gradient(135deg, var(--forest-deep), var(--forest-mid), var(--forest-soft));
+  color: var(--paper);
+  box-shadow: 0 4px 16px rgba(31, 58, 31, 0.45);
+}
+
+.btn-ai:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(31, 58, 31, 0.55);
+}
+
+.ai-result {
+  margin-top: 20px;
+  background: linear-gradient(135deg, rgba(123, 164, 116, 0.2), rgba(232, 239, 225, 0.85));
+  border: 1.5px solid rgba(90, 138, 85, 0.4);
+  border-radius: 18px;
+  padding: 28px 26px;
+  position: relative;
+  animation: fadeIn 0.5s ease;
+}
+
+.ai-header {
+  font-family: "Nanum Pen Script", "Caveat", cursive;
+  font-size: 30px;
+  color: var(--forest-deep);
+  font-weight: 400;
+  margin-bottom: 14px;
+  letter-spacing: 2px;
+}
+
+.ai-content {
+  font-size: 15.5px;
+  line-height: 1.9;
+  color: var(--forest-deep);
+  font-family: "Gowun Dodum", sans-serif;
+}
+
+.ai-content p { margin-bottom: 14px; }
+
+.ai-content b {
+  color: var(--forest-mid);
+  font-weight: 700;
+}
+
+.ai-content .muted {
+  color: var(--forest-soft);
+  font-size: 14px;
+  font-family: "Gaegu", sans-serif;
+  opacity: 0.95;
+}
+
+.ai-footer {
+  margin-top: 18px;
+  font-family: "Gaegu", sans-serif;
+  font-size: 14.5px;
+  color: var(--forest-mid);
+  text-align: center;
+  opacity: 0.9;
+}
+
+.ai-loading {
+  font-family: "Gaegu", sans-serif;
+  text-align: center;
+  color: var(--forest-mid);
+  font-size: 16px;
+  padding: 16px;
+}
+
+.ai-error { color: var(--terracotta); font-size: 14px; line-height: 1.6; }
+
+.history-area { margin-top: 28px; }
+
+.history-title {
+  font-family: "Nanum Pen Script", "Caveat", cursive;
+  font-size: 28px;
+  color: var(--forest-mid);
+  letter-spacing: 1.5px;
+  margin-bottom: 12px;
+  font-weight: 400;
+}
+
+.history-item {
+  background: rgba(232, 239, 225, 0.7);
+  border: 1.5px dashed rgba(90, 138, 85, 0.5);
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin-bottom: 10px;
+  transition: all 0.2s ease;
+}
+
+.history-item:hover {
+  background: rgba(212, 227, 204, 0.95);
+  transform: translateX(4px);
+}
+
+.history-date {
+  font-family: "Gaegu", sans-serif;
+  font-size: 13.5px;
+  color: var(--forest-mid);
+  opacity: 0.9;
+  margin-bottom: 4px;
+}
+
+.history-emotion {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--forest-deep);
+  font-family: "Gowun Dodum", sans-serif;
+}
+
+.history-area-text {
+  font-size: 14px;
+  color: var(--forest-mid);
+  font-family: "Gaegu", sans-serif;
+}
+
+@media (max-width: 480px) {
+  .container { padding: 32px 18px; }
+  .header h1 { font-size: 44px; }
+  .question-area { padding: 28px 22px; }
+  .leaf { font-size: 36px !important; }
+  .sun { font-size: 60px; }
+}
+</style>
+</head>
+<body>
+<div class="bg-decor">
+  <div class="leaf leaf-1">🌿</div>
+  <div class="leaf leaf-2">🍃</div>
+  <div class="leaf leaf-3">🌱</div>
+  <div class="leaf leaf-4">🌾</div>
+  <div class="sun">☀</div>
+</div>
+
+<main class="container">
+  <header class="header">
+    <div class="ornament">✼ ⊹ ✼</div>
+    <h1>마음 숲</h1>
+    <p class="subtitle">잠시 쉬어가며, 내 안의 길을 찾아봐요</p>
+    <div class="ornament">∿ ∿ ∿</div>
+  </header>
+
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+
+  <section id="questionArea" class="question-area"></section>
+
+  <nav class="nav-buttons">
+    <button id="prevBtn" class="btn btn-secondary" hidden>이전</button>
+    <button id="nextBtn" class="btn btn-primary" disabled>다음</button>
+  </nav>
+</main>
+
+<script>
+const STORAGE_KEY = "maum-soop-history";
+
+// ============================================
+//  규칙 기반 분석 데이터
+// ============================================
+const insights = {
+  emotion: {
+    "불안": { key: "불안", scenery: "마음에 안개가 자욱하게 깔려있어요. 무언가 다가올 것 같은데 그게 뭔지 보이지 않는 상태", note: "불안은 마음이 안전을 찾고 있다는 신호예요" },
+    "우울": { key: "우울", scenery: "에너지가 깊은 우물 속으로 가라앉아 있어요. 빛이 닿기까지 시간이 걸리는 곳", note: "지금은 회복이 필요한 계절입니다" },
+    "답답함": { key: "답답함", scenery: "가슴 한가운데에 표현되지 못한 말들이 쌓여있어요. 출구를 찾고 있는 상태", note: "표현되지 못한 욕구가 있다는 신호예요" },
+    "무기력": { key: "무기력", scenery: "오래 달려온 끝에 몸과 마음이 멈춰있어요. 더 이상 짊어질 수 없을 만큼 무거워진 상태", note: "휴식은 게으름이 아니라 회복입니다" },
+    "막연함": { key: "막연함", scenery: "안개 속에서 무언가 만져지는데 형태를 알 수 없어요. 아직 말로 정리되기 전 단계", note: "천천히 풀어내도 괜찮아요" }
+  },
+  when: {
+    "혼자 조용히 있을 때": "외부 자극이 사라지면 평소 묻어둔 감정들이 표면에 떠올라요. 평소엔 일·관계로 덮어두지만, 혼자 있을 때 마음이 진짜 말을 걸어오는 거예요.",
+    "잠들기 전 침대에 누웠을 때": "하루 종일 미뤄둔 마음이 마지막으로 노크를 합니다. 낮 동안 외면했던 것이 밤에 정직하게 찾아오는 거예요.",
+    "사람들과 함께 있을 때": "관계 속에서 자신을 잃어가고 있을 수 있어요. 다른 사람의 시선·기대가 내 안의 진짜 목소리를 덮고 있을지 몰라요.",
+    "일하거나 공부할 때": "성과와 평가에 대한 압박이 깊게 자리잡고 있어요. '잘해야 한다'는 목소리가 끊임없이 따라다닙니다.",
+    "거의 항상 따라다님": "일시적 감정이 아닌 지속적인 상태예요. 가볍게 넘기지 말고 충분히 들여다볼 가치가 있습니다."
+  },
+  area: {
+    "인간관계 (가족 · 친구 · 연인)": "연결과 거리 사이의 균형이 흔들리고 있어요. 가까이 가고 싶은 마음과 다치고 싶지 않은 마음이 함께 있을 거예요.",
+    "일 / 커리어": "정체성과 생계 사이에서 중심을 잡으려 하고 있어요. '내가 하는 일이 곧 나'라는 무게가 너무 클 때 마음이 흔들립니다.",
+    "돈 / 경제적인 것": "안전과 자유의 기반이 흔들리는 느낌이 있어요. 돈은 종종 통제감과 미래에 대한 두려움의 다른 이름입니다.",
+    "나 자신 / 정체성": "'나는 누구인가'라는 가장 깊은 질문 앞에 서 있어요. 이 질문은 무겁지만, 동시에 가장 중요한 시작입니다.",
+    "미래 / 진로": "길이 보이지 않는다는 두려움 속에 있어요. 지도가 없을 땐 한 걸음만 보이면 충분하다는 걸 잊지 마세요."
+  },
+  fear: {
+    "거절당하거나 사랑받지 못하는 것": { belief: "내 가치는 다른 사람의 반응에 달려있다", root: "사랑에 조건이 붙어있다고 배운 흔적일 수 있어요" },
+    "실패하거나 무능해 보이는 것": { belief: "성과 없는 나는 사랑받을 수 없다", root: "결과로만 자신을 측정하는 습관이 깊어요" },
+    "혼자 남겨지거나 외로워지는 것": { belief: "내가 진짜로 보여지면 떠날 것이다", root: "연결을 갈망하지만 보호막이 두꺼울 수 있어요" },
+    "통제할 수 없는 상황에 놓이는 것": { belief: "삶은 위험하니 내가 모든 걸 관리해야 한다", root: "예측 불가능한 환경에서 안전을 잃은 경험이 있을 수 있어요" },
+    "원하는 삶을 살지 못하는 것": { belief: "내가 살고 싶은 삶은 사치다", root: "시간이 지나간다는 절박함이 깊이 자리잡고 있어요" }
+  },
+  wish: {
+    "안심 / 편안함": {
+      label: "안전감",
+      step: "오늘 5분만, 따뜻한 차 한 잔을 두 손에 감싸쥐고 \"지금 이 순간은 안전해\"라고 천천히 말해보세요. 몸이 먼저 안심해야 마음이 따라옵니다."
+    },
+    "자신감 / 뿌듯함": {
+      label: "유능감",
+      step: "오늘, 30분 안에 끝낼 수 있는 작은 일 하나만 정해서 끝까지 완료해보세요. 양보다 '완결'의 감각이 자신감의 씨앗이에요."
+    },
+    "자유로움 / 가벼움": {
+      label: "해방감",
+      step: "오늘 해야 한다고 생각했던 일 하나를 의도적으로 미뤄보세요. \"안 해도 괜찮다\"고 자신에게 허락하는 연습이 필요해요."
+    },
+    "사랑받는 느낌 / 연결감": {
+      label: "연결감",
+      step: "오늘 한 사람에게 짧은 메시지를 보내보세요. \"안녕, 잘 지내?\" 한 줄이면 충분합니다. 연결은 거창하지 않아도 돼요."
+    },
+    "의미 있는 느낌": {
+      label: "의미",
+      step: "오늘 5분만 시간을 내서, 당신에게 진짜 중요한 것 한 가지를 노트에 적어보세요. 의미는 거대한 것이 아니라 작은 진심에서 시작합니다."
+    }
+  }
+};
+
+function buildAnalysis(a) {
+  const e = insights.emotion[(a.emotion || "").split(" — ")[0]] || {};
+  const w = insights.when[a.when] || "";
+  const ar = insights.area[a.area] || "";
+  const f = insights.fear[a.fear] || {};
+  const wi = insights.wish[a.wish] || {};
+
+  return {
+    scenery: e.scenery,
+    sceneryNote: e.note,
+    when: w,
+    area: ar,
+    coreLine: `당신의 <b>${escapeHtml(e.key || "")}</b>은(는) 단순한 기분이 아니라, <b>"${escapeHtml(a.fear || "")}"</b>는 두려움 위에 세워진 보호막일 수 있어요.`,
+    belief: f.belief,
+    root: f.root,
+    realIssue: `결국 진짜 고민은 — <b>${escapeHtml(a.area || "")}</b>에서 <b>"${escapeHtml(f.belief || "")}"</b>는 믿음이 자꾸 건드려진다는 점이에요. 그래서 ${escapeHtml(e.key || "")}으로 마음이 반응하는 거예요.`,
+    wishLabel: wi.label,
+    step: wi.step
+  };
+}
+
+const questions = [
+  {
+    id: "emotion",
+    title: "지금 가장 가까운 감정은 무엇인가요?",
+    hint: "정확하지 않아도 괜찮아요. 가장 비슷한 걸 골라보세요",
+    options: [
+      "불안 — 무언가 잘못될 것 같은 기분",
+      "우울 — 가라앉고 의욕이 없음",
+      "답답함 — 막혀있는 듯한 느낌",
+      "무기력 — 모든 게 귀찮고 손이 안 감",
+      "막연함 — 이유 모를 불편함"
+    ]
+  },
+  {
+    id: "when",
+    title: "이런 마음이 주로 언제 떠오르나요?",
+    hint: "패턴을 찾으면 원인이 보입니다",
+    options: [
+      "혼자 조용히 있을 때",
+      "잠들기 전 침대에 누웠을 때",
+      "사람들과 함께 있을 때",
+      "일하거나 공부할 때",
+      "거의 항상 따라다님"
+    ]
+  },
+  {
+    id: "area",
+    title: "최근 가장 신경 쓰이는 영역은?",
+    hint: "지금 마음의 무게가 어디에 실려있나요",
+    options: [
+      "인간관계 (가족 · 친구 · 연인)",
+      "일 / 커리어",
+      "돈 / 경제적인 것",
+      "나 자신 / 정체성",
+      "미래 / 진로"
+    ]
+  },
+  {
+    id: "fear",
+    title: "마음 깊은 곳의 진짜 두려움은?",
+    hint: "표면이 아닌 그 아래의 두려움을 찾아보세요",
+    options: [
+      "거절당하거나 사랑받지 못하는 것",
+      "실패하거나 무능해 보이는 것",
+      "혼자 남겨지거나 외로워지는 것",
+      "통제할 수 없는 상황에 놓이는 것",
+      "원하는 삶을 살지 못하는 것"
+    ]
+  },
+  {
+    id: "wish",
+    title: "이게 해결되면 어떤 기분이고 싶나요?",
+    hint: "원하는 감정 상태가 진짜 욕구를 알려줍니다",
+    options: [
+      "안심 / 편안함",
+      "자신감 / 뿌듯함",
+      "자유로움 / 가벼움",
+      "사랑받는 느낌 / 연결감",
+      "의미 있는 느낌"
+    ]
+  }
+];
+
+const state = { current: 0, answers: {}, finished: false };
+
+const $area = document.getElementById("questionArea");
+const $next = document.getElementById("nextBtn");
+const $prev = document.getElementById("prevBtn");
+const $progress = document.getElementById("progressFill");
+
+function render() {
+  if (state.finished) { renderResult(); return; }
+
+  const q = questions[state.current];
+  const answer = state.answers[q.id];
+
+  $area.innerHTML = `
+    <div class="question-title">${escapeHtml(q.title)}</div>
+    <div class="question-hint">${escapeHtml(q.hint)}</div>
+    <div class="options" id="optionsList"></div>
+  `;
+
+  const $list = document.getElementById("optionsList");
+  q.options.forEach((opt) => {
+    const btn = document.createElement("button");
+    btn.className = "option" + (answer === opt ? " selected" : "");
+    btn.textContent = opt;
+    btn.addEventListener("click", () => {
+      state.answers[q.id] = opt;
+      render();
+    });
+    $list.appendChild(btn);
+  });
+
+  updateButtons();
+  updateProgress();
+}
+
+function updateButtons() {
+  if (state.finished) return;
+  const q = questions[state.current];
+  const answer = state.answers[q.id];
+  $next.disabled = !answer;
+  $next.textContent = state.current === questions.length - 1 ? "결과 보기" : "다음";
+  $prev.hidden = state.current === 0;
+}
+
+function updateProgress() {
+  $progress.style.width = `${(state.current / questions.length) * 100}%`;
+}
+
+function renderResult() {
+  $progress.style.width = "100%";
+  const a = state.answers;
+
+  $area.innerHTML = `
+    <div class="question-title">당신의 마음을 들여다본 결과</div>
+    <div class="question-hint">완벽한 답은 아니지만, 시작점이 될 거예요 🌿</div>
+
+    <div class="result-card">
+      <div class="result-label">지금 느끼는 것</div>
+      <div class="result-text">${escapeHtml(a.emotion || "")}</div>
+    </div>
+    <div class="result-card">
+      <div class="result-label">떠오르는 순간</div>
+      <div class="result-text">${escapeHtml(a.when || "")}</div>
+    </div>
+    <div class="result-card">
+      <div class="result-label">고민의 영역</div>
+      <div class="result-text">${escapeHtml(a.area || "")}</div>
+    </div>
+    <div class="result-card">
+      <div class="result-label">깊은 곳의 두려움</div>
+      <div class="result-text">${escapeHtml(a.fear || "")}</div>
+    </div>
+    <div class="result-card">
+      <div class="result-label">바라는 마음 상태</div>
+      <div class="result-text">${escapeHtml(a.wish || "")}</div>
+    </div>
+
+    <div class="result-summary">${generateSummary(a)}</div>
+
+    <div class="action-row">
+      <button id="deepBtn" class="btn btn-ai">✨ 더 깊이 들여다보기</button>
+      <button id="saveBtn" class="btn btn-secondary">📓 일기로 저장</button>
+    </div>
+
+    <div id="aiResult" class="ai-result" hidden></div>
+    <div id="historyArea" class="history-area"></div>
+  `;
+
+  document.getElementById("deepBtn").addEventListener("click", handleDeepAnalysis);
+  document.getElementById("saveBtn").addEventListener("click", handleSave);
+  renderHistory();
+
+  $next.textContent = "다시 시작";
+  $next.disabled = false;
+  $prev.hidden = true;
+}
+
+function generateSummary(a) {
+  const emotion = (a.emotion || "").split(" — ")[0];
+  const lines = [];
+  lines.push(`지금 당신은 <b>${escapeHtml(emotion)}</b>을(를) 느끼고 있고,`);
+  if (a.area) lines.push(`주로 <b>${escapeHtml(a.area)}</b>에서 비롯된 것으로 보여요.`);
+  if (a.fear) lines.push(`그 아래에는 <b>"${escapeHtml(a.fear)}"</b>는 두려움이 깔려있을 수 있습니다.`);
+  if (a.wish) lines.push(`결국 당신이 원하는 건 <b>${escapeHtml(a.wish)}</b>의 상태예요.`);
+  lines.push(`<br>이 정리가 정답은 아니지만, 무엇을 들여다볼지에 대한 단서가 되길 바랍니다.`);
+  return lines.join(" ");
+}
+
+function handleDeepAnalysis() {
+  const $result = document.getElementById("aiResult");
+  const $btn = document.getElementById("deepBtn");
+  const r = buildAnalysis(state.answers);
+
+  $btn.disabled = true;
+  $btn.textContent = "🌿 펼치는 중...";
+  $result.hidden = false;
+  $result.innerHTML = `<div class="ai-loading">숨을 한 번 고르고 펼쳐볼게요...</div>`;
+
+  // 잠깐의 연출 - 즉시 표시되면 가벼워 보이니까
+  setTimeout(() => {
+    $result.innerHTML = `
+      <div class="ai-header">✼ 마음 깊이 들여다보기</div>
+      <div class="ai-content">
+        <p><b>🌫 마음의 풍경</b><br>
+        ${escapeHtml(r.scenery || "")}<br>
+        <span class="muted">— ${escapeHtml(r.sceneryNote || "")}</span></p>
+
+        <p><b>⏰ 떠오르는 순간이 말해주는 것</b><br>
+        ${escapeHtml(r.when || "")}</p>
+
+        <p><b>🌳 고민의 뿌리</b><br>
+        ${escapeHtml(r.area || "")}</p>
+
+        <p><b>🪞 숨은 연결고리</b><br>
+        ${r.coreLine}<br>
+        그 보호막 아래에는 <b>"${escapeHtml(r.belief || "")}"</b>는 믿음이 있을 수 있어요. ${escapeHtml(r.root || "")}.</p>
+
+        <p><b>💡 진짜 고민</b><br>
+        ${r.realIssue}</p>
+
+        <p><b>🌱 오늘의 작은 한 걸음 — ${escapeHtml(r.wishLabel || "")}을 위해</b><br>
+        ${escapeHtml(r.step || "")}</p>
+      </div>
+      <div class="ai-footer">— 이 분석은 참고용이며, 진짜 답은 당신 안에 있습니다 🌿</div>
+    `;
+    $btn.disabled = false;
+    $btn.textContent = "✼ 다시 펼쳐보기";
+  }, 700);
+}
+
+function handleSave() {
+  const history = loadHistory();
+  history.unshift({
+    id: Date.now(),
+    date: new Date().toISOString(),
+    answers: { ...state.answers }
+  });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(0, 30)));
+
+  const $btn = document.getElementById("saveBtn");
+  $btn.textContent = "✓ 저장됨";
+  $btn.disabled = true;
+  setTimeout(() => {
+    $btn.textContent = "📓 일기로 저장";
+    $btn.disabled = false;
+  }, 2000);
+
+  renderHistory();
+}
+
+function loadHistory() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); }
+  catch { return []; }
+}
+
+function renderHistory() {
+  const $hist = document.getElementById("historyArea");
+  if (!$hist) return;
+  const history = loadHistory();
+  if (history.length === 0) { $hist.innerHTML = ""; return; }
+
+  const items = history.slice(0, 5).map((h) => {
+    const d = new Date(h.date);
+    const dateStr = `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, "0")}.${String(d.getDate()).padStart(2, "0")} ${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+    const emo = (h.answers.emotion || "").split(" — ")[0];
+    return `
+      <div class="history-item">
+        <div class="history-date">🌙 ${dateStr}</div>
+        <div class="history-emotion">${escapeHtml(emo)}</div>
+        <div class="history-area-text">${escapeHtml(h.answers.area || "")}</div>
+      </div>
+    `;
+  }).join("");
+
+  $hist.innerHTML = `<div class="history-title">✼ 이전의 마음들</div>${items}`;
+}
+
+function goNext() {
+  if (state.finished) { restart(); return; }
+  if (state.current < questions.length - 1) {
+    state.current++;
+    render();
+  } else {
+    state.finished = true;
+    render();
+  }
+}
+
+function goPrev() {
+  if (state.finished) {
+    state.finished = false;
+    state.current = questions.length - 1;
+    render();
+    return;
+  }
+  if (state.current > 0) { state.current--; render(); }
+}
+
+function restart() {
+  state.current = 0;
+  state.answers = {};
+  state.finished = false;
+  render();
+}
+
+function escapeHtml(str) {
+  if (str == null) return "";
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+$next.addEventListener("click", goNext);
+$prev.addEventListener("click", goPrev);
+
+render();
+</script>
+</body>
+</html>
