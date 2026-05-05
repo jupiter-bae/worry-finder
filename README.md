@@ -6,7 +6,7 @@
 
 `index.html`을 브라우저에서 열기만 하면 됩니다. 별도 빌드 과정 없음.
 
-또는 라이브 데모: https://beerabae.github.io/worry-finder/
+또는 라이브 데모: https://jupiter-bae.github.io/worry-finder/
 
 ## 특징
 
